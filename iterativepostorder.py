@@ -2,11 +2,10 @@ from DS.binarytreenodes import BinaryTreeNode;
 
 def recursivePostorder(root):
     if not root:
-        return stack;
+        return;
     recursivePostorder(root.left);
     recursivePostorder(root.right);
     print(root.val);
-    return stack;
 
 def isLeaf(node):
     return True if not node.left and not node.right else False;
