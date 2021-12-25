@@ -1,5 +1,4 @@
 from DS.binarytreenodes import BinaryTreeNode;
-from DS.binarysearchtrees import BinarySearchTree;
 
 def recursivePostorder(root, stack=[]):
     if not root:
