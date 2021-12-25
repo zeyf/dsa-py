@@ -1,11 +1,11 @@
 from DS.binarytreenodes import BinaryTreeNode;
 
-def recursivePostorder(root, stack=[]):
+def recursivePostorder(root):
     if not root:
         return stack;
-    recursivePostorder(root.left, stack);
-    recursivePostorder(root.right, stack);
-    stack.append(root.val);
+    recursivePostorder(root.left);
+    recursivePostorder(root.right);
+    print(root.val);
     return stack;
 
 def isLeaf(node):
@@ -32,7 +32,6 @@ def iterativePostorder(root):
         stack.append(root);
 
     seen = set();
-    traversal = [];
     while len(stack):
         current = stack[-1];
         while current and current not in seen:
@@ -44,5 +43,4 @@ def iterativePostorder(root):
                 stack.append(current);
         top = stack[-1];
         if isLeaf(top) or noLeftWithRightSeen(top, seen) or noRightWithLeftSeen(top, seen) or bothLeftSeenAndRightSeen(top, seen) or top in seen:
-            traversal.append(stack.pop().val);
-    return traversal;
+            print(stack.pop().val);
