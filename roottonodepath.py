@@ -25,17 +25,18 @@ def rnpathiter(root, targetvalue):
     path = [];
     while len(stack):
         child, parent = stack.pop();
-        if child not in seenMap:
-            seenMap[child] = parent;
+        seenMap[child] = parent;
+
         if child.val == targetvalue:
             currentchild = child;
             while currentchild:
                 path.append(currentchild.val);
                 currentchild = seenMap[currentchild];
-        if child.left:
-            stack.append((child.left, child));
+        #preorder
         if child.right:
             stack.append((child.right, child));
+        if child.left:
+            stack.append((child.left, child));
 
     return path[::-1];
 
