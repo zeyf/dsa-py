@@ -1,4 +1,7 @@
 class Solution:
+    def __init__(self):
+        self.firstLeftLeaf = None;
+        self.firstRightLeaf = None;
         
     def findFirstLeaf(self, childparentpair, direction, relationships):
         child, parent = childparentpair;
@@ -39,41 +42,39 @@ class Solution:
             node = preorder.pop();
             if not node.left and not node.right and node not in seen:
                 bottom.append(node.val);
-            if node.right:
+            if node.right and node.right not in seen:
                 preorder.append(node.right);
-            if node.left:
+            if node.left and node.left not in seen:
                 preorder.append(node.left);
         
         return [root.val] + left[::-1] + bottom + right;
 
 '''
-VERSION 2: ONE PASS! NO CHILD-PARENT RELATIONSHIP NEEDED
+
+VERSION 2: ONE PASS, NO CHILD PARENT RELATIONSHIPS
+
 '''
 
-        def __init__(self):
-                self.firstLeftLeaf = None;
-                self.firstRightLeaf = None;
+    def findFirstLeafV2(self, node, direction, leftboundary, midleafs, rightboundary):
+            if not node:
+                return;
 
-        def findFirstLeafV2(self, node, direction, leftboundary, midleafs, rightboundary):
-                    if not node:
-                        return;
+            if direction < 0 and not self.firstLeftLeaf:
+                leftboundary.append(node.val);
+            elif direction > 0 and not self.firstRightLeaf:
+                rightboundary.append(node.val);
 
-                    if direction < 0 and not self.firstLeftLeaf:
-                        leftboundary.append(node.val);
-                    elif direction > 0 and not self.firstRightLeaf:
-                        rightboundary.append(node.val);
+            if not node.left and not node.right:
+                if direction < 0 and not self.firstLeftLeaf:
+                    self.firstLeftLeaf = node;
+                elif direction > 0 and not self.firstRightLeaf:
+                    self.firstRightLeaf = node;
+                else:
+                    midleafs.append(node.val);
+                return;
 
-                    if not node.left and not node.right:
-                        if direction < 0 and not self.firstLeftLeaf:
-                            self.firstLeftLeaf = node;
-                        elif direction > 0 and not self.firstRightLeaf:
-                            self.firstRightLeaf = node;
-                        else:
-                            midleafs.append(node.val);
-                        return;
-
-                    self.findFirstLeafV2(node.left if direction < 0 else node.right, direction, leftboundary, midleafs, rightboundary);
-                    self.findFirstLeafV2(node.right if direction < 0 else node.left, direction, leftboundary, midleafs, rightboundary);
+            self.findFirstLeafV2(node.left if direction < 0 else node.right, direction, leftboundary, midleafs, rightboundary);
+            self.findFirstLeafV2(node.right if direction < 0 else node.left, direction, leftboundary, midleafs, rightboundary);
 
 
     def boundaryOfBinaryTreeV2(self, root):
