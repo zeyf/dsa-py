@@ -50,6 +50,10 @@ class Solution:
 VERSION 2: ONE PASS! NO CHILD-PARENT RELATIONSHIP NEEDED
 '''
 
+        def __init__(self):
+                self.firstLeftLeaf = None;
+                self.firstRightLeaf = None;
+
         def findFirstLeafV2(self, node, direction, leftboundary, midleafs, rightboundary):
                     if not node:
                         return;
