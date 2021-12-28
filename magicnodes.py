@@ -59,3 +59,20 @@ root.right = BinaryTreeNode(200);
 root.right.right = BinaryTreeNode(500);
 
 print("NUMBER OF MAGIC NODES:\t", countMagicNodes(root));
+
+def magicNodes(info, counter):
+    node, nodesum, nodecount = info;
+    if not node:
+        return (None, 0, 0);
+    left = magicNodes((node.left, nodesum, nodecount), counter);
+    right = magicNodes((node.right, nodesum, nodecount), counter);
+    if ( (left[0] and right[0]) and ( (left[1] % 2 == 0 and right[1] % 2 == 1) or (left[2] % 2 == 1 and right[2] % 2 == 0) ) ):
+        counter[0] += 1;
+
+    nodesum += node.val + left[1] + right[1];
+    nodecount += 1 + left[2] + right[2];
+    print((node.val, nodesum, nodecount));
+    return (node, nodesum, nodecount);
+counter = [0];
+magicNodes((root, 0, 0), counter);
+print("NUMBER OF MAGIC NODES:\t", counter[0]);
