@@ -12,22 +12,25 @@ def checkChildrenSum(root):
     leftrightsum = (0 if not root.left else root.left.val) + (0 if not root.right else root.right.val);
     return subres and leftrightsum == root.val;
 
+def mapRelationshipsCollectLeaves(data, relationships, leaves):
+    child, parent = data;
+    if not child:
+        return;
+
+    relationships[child] = parent;
+    if not child.left and not child.right:
+        leaves.append(child);
+
+    mapRelationshipsCollectLeaves((child.left, child), relationships, leaves);
+    mapRelationshipsCollectLeaves((child.right, child), relationships, leaves);
+
 def changeChildrenSum(root):
     if not root or checkChildrenSum(root):
         return;
 
     relationships = {  };
     leaves = [];
-    stack = [(root, None)];
-    while len(stack):
-        child, parent = stack.pop();
-        relationships[child] = parent;
-        if not child.left and not child.right:
-            leaves.append(child);
-        if child.right:
-            stack.append((child.right, child));
-        if child.left:
-            stack.append((child.left, child));
+    mapRelationshipsCollectLeaves((root, None), relationships, leaves);
     
     for leaf in leaves:
         current, maxValueNode = leaf, leaf;
